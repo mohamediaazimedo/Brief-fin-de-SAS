@@ -313,7 +313,56 @@ void Display() {
 
         }
 }
-void Save() {}
+void Save() {
+
+    FILE* pfile;
+
+   if(SizeOfList==0)
+	{
+	printf("\n\n\t\t\t * No Tasks to Save Add new  ! * \n ");
+    return;
+	}
+	if(Saved==false){
+            // if file is not saved yet create new file
+			pfile=fopen("Tasks.txt","w");
+	}
+	else {
+    // if file is  saved  already and we want to add new data to it
+    pfile=fopen("Tasks.txt","a");
+
+	}
+	if(Saved){
+        printf("\n\n\t\t\t * Its Already Saved *   \n ");
+	}
+	else{
+
+        for(i=0;i<SizeOfList;i++){
+            char p[100];
+       // Convert integer to string
+
+           fprintf(pfile,
+                         "\n\n|------------------------- Task %d ----------------------------|"
+                         "\n\n             Id  : %d \n"
+                         "\n\n             Title  : %s \n"
+                         "\n\n             The Description : %s \n "
+                         "\n\n             Priority : %s \n"
+                         "\n\n             Status : %s "
+                         "\n\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n\n"
+                         ,i+1
+                         ,Task[i].Id,
+                         Task[i].Title,
+                         Task[i].Description,
+                         Task[i].Priority,
+                         Task[i].Status,
+                         Task[i].Date.Month,Task[i].Date.Day,Task[i].Date.Year);
+        }
+        printf("\n\n\t\t\t *  Saved With Success *   \n ");
+	}
+
+	fclose(pfile);
+
+
+}
 int Exit() {
 
         if (Saved) {
