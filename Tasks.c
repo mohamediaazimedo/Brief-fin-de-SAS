@@ -18,9 +18,9 @@ typedef struct{
     char Title[30];
     char Description[200];
     // heigh or low
-    char priority[1];
+    char Priority[1];
     // done or doing
-    bool status;
+    bool Status;
     struct Date Date;
     int added;
 
@@ -74,7 +74,7 @@ void Add(){
    scanf(" %[^\n]s",&Task[SizeOfList].Description);
 
     printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
-   scanf(" %[^\n]s",&Task[SizeOfList].priority);
+   scanf(" %[^\n]s",&Task[SizeOfList].Priority);
 
    printf("\n   Enter The the Due Date  \n");
 
@@ -86,7 +86,11 @@ printf("\n     >>  Month From (1)To(12) : ");
 
     printf("\n     >> The Year From (2024)To(2025) : ");
    scanf("%d",&Task[SizeOfList].Date.Year);
-   List=SizeOfList+1;
+   // add id so to call later to use in  filter and delete and update The id ==[index] +1
+    Task[SizeOfList].Id=List+1;
+
+   SizeOfList++;
+   List=SizeOfList;
 
 
 }
@@ -95,23 +99,68 @@ void Update(){
 }
 
 void Delete(){
+        int choice;
+
+
+    printf("\n\t\t Enter O To Back \n");
+    printf("\n\t\t Enter 1 To Delete By Id \n");
+    printf("\n\t\t Enter 2 To Delete By Title \n");
+    printf("\n\t\t Enter 3 To Delete By Priority \n");
+    printf("\n\t\t Enter 4 To Delete By Status \n");
+
+    scanf("%d",&choice);
+    switch(choice)
+    {
+    case 0:
+        break;
+        case 1:
+            Romove("Id");
+        break;
+        case 2:
+        Romove("Title");
+        break;
+        case 3:
+        Romove("Priority");
+
+        break;
+          case 4:
+        Romove("Status");
+
+        break;
+          default:
+              printf("Your Entrey Doesnt Match To Any Label ");
+            break;
+
+
+    }
+
+
+}
+void Romove(char Target[]){
+
+    for(i=0;i<SizeOfList;i++){
+        if(strcmp(Task[i].Target,Target)==0)
+        {
+            Found;
+        }
+        Found=false;
+
+    }
+
 }
 void Display(){
 
    // printf("\n               ************** Display  *************               \n");
 
-    for(i=0;i<=SizeOfList;i++){
+    for(i=0;i<SizeOfList;i++){
 
-    printf("\n               ************** Task %d *************               \n",i+1);
-
-
-   printf("\n Title  : %s ",Task[i].Title);
-   printf("\n The Description : %s ",Task[i].Description);
-
-    printf("\n Priority : %s",Task[i].priority);
+    printf("\n               ************** Task %d *************               \n",Task[i].Id);
 
 
-   printf("\n   The the Due Date mm/dd/yyyy : %d/%d/%d \n",Task[i].Date.Month,Task[i].Date.Day,Task[i].Date.Year);
+   printf("\n             Title  : %s ",Task[i].Title);
+   printf("\n             The Description : %s ",Task[i].Description);
+   printf("\n             Priority : %s ",Task[i].priority);
+   printf("\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n",Task[i].Date.Month,Task[i].Date.Day,Task[i].Date.Year);
 
 
 
