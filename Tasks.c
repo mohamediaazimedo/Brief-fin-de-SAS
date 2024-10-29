@@ -6,7 +6,6 @@
 
 #include <stdbool.h>
 
-// struct of date
 struct Date {
 
         int Year;
@@ -14,17 +13,16 @@ struct Date {
         int Day;
 
 };
-// struct of Task
 typedef struct {
         int Id;
         char Title[30];
         char Description[200];
         // heigh or low
-        char Priority[1];
-        // done or doing
-        char Status;
+        char Priority[30];
+        // done or ToDo
+        char Status[10];
+        //dd/mm8/yyyy
         struct Date Date;
-        int added;
 
 }
 Tasks;
@@ -32,12 +30,46 @@ Tasks;
 // var
 int SizeOfList = 0, i,j, List = 0, Find[100];
 char Leave, Selected;
-// found for delete seved for save
 bool Found, Saved;
 void Update();
-// declare task struct as array list as Global to use in inside all the functions i give it access to add 100 task
 Tasks Task[100];
+void MisAjour(int Tag,int id){
 
+    // Array index start from 0 so id is +1 while index is 0
+    id=id-1;
+// we Have 4 Case **Title Desc Prio Status**
+    switch(Tag){
+    case 1:
+        printf("\n\n\tEnter new Title :");
+        scanf(" %[^\n]s",Task[id].Title);
+        printf("\n\n\n");
+
+
+
+    break;
+    case 2:
+         printf("\n\\tnEnter new Description :");
+        scanf(" %[^\n]s",Task[id].Description);
+        printf("\n\n\n");
+
+
+    break;
+    case 3:
+        printf("\n\n\tEnter (H)High (L)Low To new Priority  :");
+        scanf(" %[^\n]s",Task[id].Priority);
+        printf("\n\n\n");
+
+    break;
+
+
+    case 4:
+         printf("Enter new Status (Done) or (ToDo) :");
+        scanf(" %[^\n]s",Task[id].Status);
+        break;
+
+
+    }
+}
 void empty(char Title[]) {
         if (List != 0) {
 
@@ -61,7 +93,6 @@ void empty(char Title[]) {
         }
 
 }
-// functions
 void Add() {
 
         printf("\n               ************** Create Task %d *************               \n", SizeOfList + 1);
@@ -73,7 +104,7 @@ void Add() {
         scanf(" %[^\n]s", & Task[SizeOfList].Description);
 
         printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
-        scanf(" %[^\n]s", & Task[SizeOfList].Priority);
+        scanf("%s", & Task[SizeOfList].Priority);
 
         printf("\n   Enter The the Due Date  \n");
 
@@ -89,16 +120,17 @@ void Add() {
 
         // add id so to call later to use in  filter and delete and update The id ==[index] +1
         Task[SizeOfList].Id = List + 1;
-        Task[SizeOfList].Status="ToDo";
+        // Add By Default That status is To Do
+        strcpy(Task[SizeOfList].Status,"To Do");
+
 
         SizeOfList++;
         List = SizeOfList;
 
 }
-
 void Update() {
 
-    int choice=0,Tag;
+    int choice=0,id,Tag;
     do{
     printf("\n\n\t\tEnter (0) To back To The Main Menu ");
     printf("\n\n\t\tEnter (1) To Update One Item in The Task ");
@@ -113,9 +145,9 @@ void Update() {
         // back to menu
         break;
         case 1:
-    CostumTitle("Update One Item");
+    CostumTitle("Update One");
     printf("\n\n\tEnter Id :  ");
-    scanf("%d",&choice);
+    scanf("%d",&id);
 
     printf("\n\n\t\tEnter (0) To back To The Main Menu ");
     printf("\n\n\t\tEnter (1) To Update Title ");
@@ -124,11 +156,32 @@ void Update() {
     printf("\n\n\t\tEnter (4) To Update Priority");
 
     printf("\n\n\tEnter Your Choice :  ");
-    scanf("%d",&choice);
+    scanf("%d",&Tag);
     printf("\n\n\n");
+    if(Tag==0){
+            // back to Menu No need to Do any think
+            break;
+
+    }
+    else if(id<SizeOfList&&id>0) {MisAjour(Tag,id);}
             break;
         case 2:
-         CostumTitle("Update All The Items");
+         CostumTitle("Update All");
+          printf("\n\n\tEnter Id :  ");
+          scanf("%d",&id);
+          id=id-1;
+
+        printf("\n  >> Enter The Title Of The Task : ");
+        scanf(" %[^\n]s", & Task[id].Title);
+
+        printf("\n  >> Enter The Description Of The Task : ");
+        scanf(" %[^\n]s", & Task[id].Description);
+
+        printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
+        scanf(" %[^\n]s", & Task[id].Priority);
+         printf("\n  >> Enter Status (ToDo) or (Done) : ");
+        scanf(" %[^\n]s", & Task[id].Status);
+                 printf("\n\n\t          UpDate Success            \n");
 
             break;
     }
@@ -139,7 +192,6 @@ void Update() {
 
 
 }
-
 void Delete() {
         int choice;
 
@@ -168,7 +220,7 @@ void Delete() {
 
                 break;
         default:
-                printf("Your Entrey Doesnt Match To Any Label ");
+                printf("\n\n     Your Entrey Doesnt Match To Any Label\n\n ");
                 break;
 
         }
@@ -177,7 +229,7 @@ void Delete() {
 void Romove(char Target[]) {
         int intTag,ItemFind=0;
         Found=false;
-        char strTag[30];
+        char strTag[1];
         printf("\n Enter The %s Of The Table You Want To Delete :", Target);
         if (!strcmp(Target, "Id")) {
 
@@ -208,8 +260,12 @@ void Romove(char Target[]) {
                         }
 
                 } else if (!strcmp(Target, "Priority")) {
+                            printf("p one \n");
+
 
                         if (!strcmp(Task[i].Priority, strTag)) {
+                                        printf("p2 \n");
+
                                 Found = true;
                                 Find[ItemFind++] = i;
 
@@ -235,10 +291,10 @@ void Romove(char Target[]) {
             SizeOfList--;
            List=SizeOfList;
         }
-        printf("Deleted With Success \n");
+        printf("\n\n\t      Deleted With Success \n");
 
         } else {
-                printf("The Entered Data dont Match any Task");
+                printf("\n\n\t   The Entered Data dont Match any Task \n");
 
         }
 
@@ -252,6 +308,7 @@ void Display() {
                 printf("\n\n             Title  : %s ", Task[i].Title);
                 printf("\n\n             The Description : %s ", Task[i].Description);
                 printf("\n\n             Priority : %s ", Task[i].Priority);
+                printf("\n\n             Status : %s ", Task[i].Status);
                 printf("\n\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n\n", Task[i].Date.Month, Task[i].Date.Day, Task[i].Date.Year);
 
         }
@@ -343,7 +400,6 @@ void Menu() {
 
         }
 }
-
 void CostumTitle(char Title[]) {
 
         // Use diffrent style for Menu and normal Title
@@ -357,7 +413,6 @@ void CostumTitle(char Title[]) {
         }
 
 }
-
 // main function
 int main() {
         // set color to black so i can use color later
