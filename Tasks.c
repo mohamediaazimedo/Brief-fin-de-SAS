@@ -34,21 +34,25 @@ int SizeOfList = 0, i,j, List = 0, Find[100];
 char Leave, Selected;
 // found for delete seved for save
 bool Found, Saved;
+void Update();
 // declare task struct as array list as Global to use in inside all the functions i give it access to add 100 task
 Tasks Task[100];
 
 void empty(char Title[]) {
         if (List != 0) {
-                if (strcmp(Title, "Display") == 0) {
+
+
+                if (!strcmp(Title, "Display")) {
                         Display();
 
-                } else if (strcmp(Title, "UpDate") == 0) {
-                        Update();
+                } else if (!strcmp(Title, "Update")) {
 
-                } else if (strcmp(Title, "Delete") == 0) {
+                       Update();
+
+                } else if (!strcmp(Title, "Delete")) {
                         Delete();
 
-                } else if (strcmp(Title, "Save") == 0) {
+                } else if (!strcmp(Title, "Save")) {
                         Save();
 
                 }
@@ -73,23 +77,68 @@ void Add() {
 
         printf("\n   Enter The the Due Date  \n");
 
-        printf("\n     >>  Month From (1)To(12) : ");
+        printf("\n\n      >>  Month From (1)To(12) : ");
         scanf("%d", & Task[SizeOfList].Date.Month);
 
-        printf("\n     >> The Day From (1)To(31) : ");
+        printf("\n\n      >> The Day From (1)To(31) : ");
         scanf("%d", & Task[SizeOfList].Date.Day);
 
-        printf("\n     >> The Year From (2024)To(2025) : ");
+        printf("\n\n      >> The Year From (2024)To(2025) : ");
         scanf("%d", & Task[SizeOfList].Date.Year);
+        printf("\n\n\n");
+
         // add id so to call later to use in  filter and delete and update The id ==[index] +1
         Task[SizeOfList].Id = List + 1;
+        Task[SizeOfList].Status="ToDo";
 
         SizeOfList++;
         List = SizeOfList;
 
 }
 
-void Update() {}
+void Update() {
+
+    int choice=0,Tag;
+    do{
+    printf("\n\n\t\tEnter (0) To back To The Main Menu ");
+    printf("\n\n\t\tEnter (1) To Update One Item in The Task ");
+    printf("\n\n\t\tEnter (2) To Update The All The content Of The Task");
+    printf("\n\n\tEnter Your Choice :  ");
+    scanf("%d",&choice);
+    printf("\n\n\n");
+
+    switch(choice)
+    {
+        case 0:
+        // back to menu
+        break;
+        case 1:
+    CostumTitle("Update One Item");
+    printf("\n\n\tEnter Id :  ");
+    scanf("%d",&choice);
+
+    printf("\n\n\t\tEnter (0) To back To The Main Menu ");
+    printf("\n\n\t\tEnter (1) To Update Title ");
+    printf("\n\n\t\tEnter (2) To Update Description");
+    printf("\n\n\t\tEnter (3) To Update Status");
+    printf("\n\n\t\tEnter (4) To Update Priority");
+
+    printf("\n\n\tEnter Your Choice :  ");
+    scanf("%d",&choice);
+    printf("\n\n\n");
+            break;
+        case 2:
+         CostumTitle("Update All The Items");
+
+            break;
+    }
+
+    }while(choice<0||choice>2);
+
+
+
+
+}
 
 void Delete() {
         int choice;
@@ -166,7 +215,7 @@ void Romove(char Target[]) {
 
                         }
 
-                } else if (strcmp(Target, "Title")==0) {
+                } else if (!strcmp(Target, "Title")) {
 
                         if (strcmp(Task[i].Title, strTag) == 0) {
                                 Found = true;
@@ -186,10 +235,10 @@ void Romove(char Target[]) {
             SizeOfList--;
            List=SizeOfList;
         }
-        printf("Success\n");
+        printf("Deleted With Success \n");
 
         } else {
-                printf("No Data ");
+                printf("The Entered Data dont Match any Task");
 
         }
 
@@ -198,12 +247,12 @@ void Display() {
 
         for (i = 0; i < SizeOfList; i++) {
 
-                printf("\n               ************** Task %d *************               \n", Task[i].Id);
+                printf("\n\n               ************** Task %d *************               \n", Task[i].Id);
 
-                printf("\n             Title  : %s ", Task[i].Title);
-                printf("\n             The Description : %s ", Task[i].Description);
-                printf("\n             Priority : %s ", Task[i].Priority);
-                printf("\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n", Task[i].Date.Month, Task[i].Date.Day, Task[i].Date.Year);
+                printf("\n\n             Title  : %s ", Task[i].Title);
+                printf("\n\n             The Description : %s ", Task[i].Description);
+                printf("\n\n             Priority : %s ", Task[i].Priority);
+                printf("\n\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n\n", Task[i].Date.Month, Task[i].Date.Day, Task[i].Date.Year);
 
         }
 }
@@ -242,8 +291,10 @@ void Menu() {
                 printf("\t\tEnter (5) To Save   \n\n");
                 printf("\t\tEnter (6) To Exit   \n\n");
 
-                printf("\n\n --> Go To : $ ");
+                printf("\n\n --> Go To :  ");
                 scanf("%d", & choice);
+                printf("\n\n\n");
+
 
                 // check choix and move to funtions
 
@@ -260,14 +311,14 @@ void Menu() {
                         break;
                 case 2:
 
-                        CostumTitle("Read");
+                        CostumTitle("Display");
                         empty("Display");
 
                         break;
                 case 3:
 
-                        CostumTitle("UpDate");
-                        empty("UpDate");
+                        CostumTitle("Update");
+                        empty("Update");
 
                         break;
                 case 4:
