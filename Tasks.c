@@ -20,7 +20,7 @@ typedef struct{
     // heigh or low
     char Priority[1];
     // done or doing
-    bool Status;
+    char Status;
     struct Date Date;
     int added;
 
@@ -28,7 +28,7 @@ typedef struct{
 }Tasks;
 
 // var
-int SizeOfList=0,i,List=0;
+int SizeOfList=0,i,List=0,Find[100];
 char Leave,Selected;
 // found for delete seved for save
 bool Found,Saved;
@@ -107,7 +107,7 @@ void Delete(){
     printf("\n\t\t Enter 2 To Delete By Title \n");
     printf("\n\t\t Enter 3 To Delete By Priority \n");
     printf("\n\t\t Enter 4 To Delete By Status \n");
-
+    printf("\n\t\t Enter Your Choice :");
     scanf("%d",&choice);
     switch(choice)
     {
@@ -136,30 +136,70 @@ void Delete(){
 
 
 }
-void Romove(char Target[]){
+void Romove(char Target[]) {
+    int intTag;            // For integer ID search
+    char strTag[50];       // For string-based search (Title)
+    bool Found = false;
+    int i, foundCount = 0; // Counter for found matches
 
-    for(i=0;i<SizeOfList;i++){
-        if(strcmp(Task[i].Target,Target)==0)
-        {
-            Found;
-        }
-        Found=false;
+    printf("\n Enter the %s of the task you want to delete: ", Target);
 
+    if (strcmp(Target, "Id") == 0) {
+        scanf("%d", &intTag);
+    } else {
+        scanf(" %[^\n]", strTag);
     }
 
+    for (i = 0; i < SizeOfList; i++) {
+        if (strcmp(Target, "Id") == 0) {
+            if (Task[i].Id == intTag) {
+                Found = true;
+                Find[foundCount++] = i;
+            }
+        } else if (strcmp(Target, "Status") == 0) {
+            bool statusTag = (strTag[0] == '1');  // Assuming '1' represents true, '0' for false
+            if (Task[i].Status == statusTag) {
+                Found = true;
+                Find[foundCount++] = i;
+            }
+        } else if (strcmp(Target, "Priority") == 0) {
+            if (Task[i].Priority == strTag[0]) {  // Assuming single char priority, e.g., 'H' or 'L'
+                Found = true;
+                Find[foundCount++] = i;
+            }
+        } else if (strcmp(Target, "Title") == 0) {
+            if (strcmp(Task[i].Title, strTag) == 0) {
+                Found = true;
+                Find[foundCount++] = i;
+            }
+        }
+    }
+
+    if (Found) {
+        printf("Deleting %d matching task(s):\n", foundCount);
+        for (i = 0; i < foundCount; i++) {
+            int index = Find[i];
+            printf("Deleting task %d \n",Task[index].Id);
+
+            for (int j = index; j < SizeOfList - 1; j++) {
+                Task[j] = Task[j + 1];
+            }
+            SizeOfList--;
+        }
+    } else {
+        printf("No matching data found \n");
+    }
 }
 void Display(){
 
-   // printf("\n               ************** Display  *************               \n");
-
     for(i=0;i<SizeOfList;i++){
 
-    printf("\n               ************** Task %d *************               \n",Task[i].Id);
+    printf("\n               ************** Task %d *************               \n",Task[i].Id+1);
 
 
    printf("\n             Title  : %s ",Task[i].Title);
    printf("\n             The Description : %s ",Task[i].Description);
-   printf("\n             Priority : %s ",Task[i].priority);
+   printf("\n             Priority : %s ",Task[i].Priority);
    printf("\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n",Task[i].Date.Month,Task[i].Date.Day,Task[i].Date.Year);
 
 
@@ -229,7 +269,7 @@ void Menu(){
             break;
             case 2:
 
-              CostumTitle("Read");
+              CostumTitle("Display");
               empty("Display");
 
 
