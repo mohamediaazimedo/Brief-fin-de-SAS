@@ -37,8 +37,8 @@ Tasks Task[100];
 
 void empty(char Title[]){
     if(List!=0){
-    if(strcmp(Title,"Read")==0){
-            Read();
+    if(strcmp(Title,"Display")==0){
+            Display();
 
     }
      else if(strcmp(Title,"UpDate")==0){
@@ -96,9 +96,9 @@ void Update(){
 
 void Delete(){
 }
-void Read(){
+void Display(){
 
-    printf("\n               ************** All The  Task  *************               \n");
+   // printf("\n               ************** Display  *************               \n");
 
     for(i=0;i<=SizeOfList;i++){
 
@@ -152,7 +152,7 @@ void Menu(){
 
     CostumTitle("Menu");
     printf("\n\n\t\tEnter (1) To Add  Task  \n\n");
-    printf("\t\tEnter (2) To Read  All The Tasks  \n\n");
+    printf("\t\tEnter (2) To Display  All The Tasks  \n\n");
     printf("\t\tEnter (3) To Update Tasks  \n\n");
     printf("\t\tEnter (4) To Delete Tasks  \n\n");
     printf("\t\tEnter (5) To Save   \n\n");
@@ -181,7 +181,7 @@ void Menu(){
             case 2:
 
               CostumTitle("Read");
-              empty("Read");
+              empty("Display");
 
 
             break;
