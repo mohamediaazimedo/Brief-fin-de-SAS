@@ -44,7 +44,7 @@ void Save();
 void Exit();
 void Filter();
 
-void empty(char Title[]);
+void CheckSize(char Title[]);
 void MisAjour(int Tag,int id);
 void Remove(char Target[]);
 void CustomTitle(char Title[]);
@@ -96,7 +96,7 @@ void MisAjour(int Tag,int id){
          &&strcmp(Task[SizeOfList].Priority,"H")!=0
          &&strcmp(Task[SizeOfList].Priority,"h")!=0)
         {
-                        printf("\n\n\t * Invalid Entery (H/h)High (L:l)Low *\n\n");
+                        printf("\n\n\t * Invalid Entery (H/h)High (L/l)Low *\n\n");
 
         return;
         }
@@ -122,7 +122,7 @@ void MisAjour(int Tag,int id){
 
     }
 }
-void empty(char Title[]) {
+void CheckSize(char Title[]) {
         if (List != 0) {
 
 
@@ -155,13 +155,13 @@ void Add() {
         scanf(" %[^\n]s", & Task[SizeOfList].Description);
 
         printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
-        scanf("%s", & Task[SizeOfList].Priority);
+        scanf("%1s", & Task[SizeOfList].Priority);
          if(strcmp(Task[SizeOfList].Priority,"L")!=0
          &&strcmp(Task[SizeOfList].Priority,"l")!=0
          &&strcmp(Task[SizeOfList].Priority,"H")!=0
          &&strcmp(Task[SizeOfList].Priority,"h")!=0)
         {
-         printf("\n\n      invalid Entery Enter H/h for high and L/l for low Priority  ");
+         printf("\n\n      invalid Entery Enter (H) for high and (L) for low Priority  ");
            return;
         }
 
@@ -311,6 +311,8 @@ void Remove(char Target[]) {
         char strTag[1];
 
         printf("\n Enter The %s Of The Table You Want To Delete :", Target);
+
+        
         if (!strcmp(Target, "Id")) {
 
                 scanf("%d", & intTag);
@@ -333,21 +335,38 @@ void Remove(char Target[]) {
 
                 } else if (!strcmp(Target, "Status")) {
                         //  its Accept two value ToDo or Done
-                        if (!strcmp(Task[i].Status, strTag)) {
+                        
+                        
+                                if (!strcmp(Task[i].Status, strTag))
+                                {
                                 Found = true;
                                 Find[ItemFind++] = i;
+                                }
+                                
+                              
 
                         }
 
-                } else if (!strcmp(Target, "Priority")) {
+                 else if (!strcmp(Target, "Priority")) {
                    //  its Accept 4 value H/h for high  and L/l for low priority
-                        if (!strcmp(Task[i].Priority, strTag)) {
-                                        printf("p2 \n");
 
+
+        if(strcmp(Task[SizeOfList].Priority,"L")==0
+         &&strcmp(Task[SizeOfList].Priority,"l")==0
+         &&strcmp(Task[SizeOfList].Priority,"H")==0
+         &&strcmp(Task[SizeOfList].Priority,"h")==0)
+        {
+                if (!strcmp(Task[i].Priority, strTag)) {
                                 Found = true;
                                 Find[ItemFind++] = i;
 
                         }
+         
+        }
+                  
+                   else  {  printf("\n\n      invalid Entery Enter (H) for high and (L) for low Priority  ");
+                             return;
+                         }
 
                 } else if (!strcmp(Target, "Title")) {
                              // it accept spaces 
@@ -505,23 +524,23 @@ void Menu() {
                 case 2:
 
                         CustomTitle("Display");
-                        empty("Display");
+                        CheckSize("Display");
 
                         break;
                 case 3:
 
                         CustomTitle("Update");
-                        empty("Update");
+                        CheckSize("Update");
 
                         break;
                 case 4:
                         CustomTitle("Delete");
-                        empty("Delete");
+                        CheckSize("Delete");
 
                         break;
                 case 5:
                         CustomTitle("Save");
-                        empty("Save");
+                        CheckSize("Save");
 
                         break;
 
