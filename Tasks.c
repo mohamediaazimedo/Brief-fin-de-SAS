@@ -35,17 +35,22 @@ bool Found, Saved;
 Tasks Task[100];
 
 // declare all the functions bellow
-void Update();
-void MisAjour(int Tag,int id);
-void Delete();
+void Menu();
 void Display();
 void Add();
-void Menu();
-void CostumTitle(char Title[]);
-void Romove(char Target[]);
-void empty(char Title[]);
+void Update();
+void Delete();
 void Save();
 void Exit();
+void Filter();
+
+void empty(char Title[]);
+void MisAjour(int Tag,int id);
+void Remove(char Target[]);
+void CustomTitle(char Title[]);
+
+
+
 
 
 // Main Function
@@ -58,7 +63,13 @@ void MisAjour(int Tag,int id){
     case 1:
         printf("\n\n\tEnter new Title :");
         scanf(" %[^\n]s",Task[id].Title);
-        printf("\n\n\n");
+        if (Task[id].Description==0)
+        {
+              printf("\n\n\t        You Cant UpDate With Empty Title           \n\n");
+        }
+        
+       else printf("\n\n\t        Title  UpDate with  Success            \n\n");
+
 
 
 
@@ -66,14 +77,30 @@ void MisAjour(int Tag,int id){
     case 2:
          printf("\n\\tnEnter new Description :");
         scanf(" %[^\n]s",Task[id].Description);
-        printf("\n\n\n");
+        if (Task[id].Description==0)
+        {
+              printf("\n\n\t        You Cant UpDate With Empty Description           \n\n");
+              return;
+        }
+        
+       else printf("\n\n\t        Description  UpDate with  Success            \n\n");
+
 
 
     break;
     case 3:
         printf("\n\n\tEnter (H)High (L)Low To new Priority  :");
-        scanf(" %[^\n]s",Task[id].Priority);
-        printf("\n\n\n");
+         scanf(" %[^\n]s",Task[id].Priority);
+        if (strcmp(Task[SizeOfList].Priority,"L")!=0
+         &&strcmp(Task[SizeOfList].Priority,"l")!=0
+         &&strcmp(Task[SizeOfList].Priority,"H")!=0
+         &&strcmp(Task[SizeOfList].Priority,"h")!=0)
+        {
+                        printf("\n\n\t * Invalid Entery (H/h)High (L:l)Low *\n\n");
+
+        return;
+        }
+        else    printf("\n\n\t        Priority  UpDate with  Success            \n\n");
 
     break;
 
@@ -81,6 +108,15 @@ void MisAjour(int Tag,int id){
     case 4:
          printf("Enter new Status (Done) or (ToDo) :");
         scanf(" %[^\n]s",Task[id].Status);
+        if (strcmp(Task[SizeOfList].Status,"Done")!=0
+          &&strcmp(Task[SizeOfList].Priority,"ToDo")!=0)
+        {
+                          printf("\n\n\t * Invalid Entery! Enter (Done) Or (ToDo) *\n\n");
+
+        }
+        else    printf("\n\n\t        Status  UpDate with  Success            \n\n");
+
+        
         break;
 
 
@@ -126,19 +162,16 @@ void Add() {
          &&strcmp(Task[SizeOfList].Priority,"h")!=0)
         {
          printf("\n\n      invalid Entery Enter H/h for high and L/l for low Priority  ");
-
-
-            return;
+           return;
         }
 
-        printf("\n   Enter The the Due Date  \n");
+        printf("\n   Enter The  Due Date  \n");
 
         printf("\n\n      >>  Month From (1)To(12) : ");
         scanf("%d", & Task[SizeOfList].Date.Month);
         if(Task[SizeOfList].Date.Month>12||Task[SizeOfList].Date.Month<=0)
         {
          printf("\n\n       invalid Entery You Have to Enter The Month from 1 To 12  ");
-
             return;
         }
 
@@ -174,7 +207,7 @@ void Add() {
 }
 void Update() {
 
-    int choice=0,id,Tag;
+    int choice=0,id,Tag=0;
     do{
     printf("\n\n\t\tEnter (0) To back To The Main Menu ");
     printf("\n\n\t\tEnter (1) To Update One Item in The Task ");
@@ -189,7 +222,7 @@ void Update() {
         // back to menu
         break;
         case 1:
-    CostumTitle("Update One");
+    CustomTitle("Update One");
     printf("\n\n\tEnter Id :  ");
     scanf("%d",&id);
 
@@ -207,12 +240,12 @@ void Update() {
             break;
 
     }
-    else if(id<=SizeOfList &&  id>0&& Tag<=4 && Tag<0) {
+    else if(id <=SizeOfList || id>0 && Tag<=4||Tag<=0) {
         MisAjour(Tag,id);
         }
             break;
         case 2:
-         CostumTitle("Update All");
+         CustomTitle("Update All");
           printf("\n\n\tEnter Id :  ");
           scanf("%d",&id);
           id=id-1;
@@ -252,17 +285,17 @@ void Delete() {
         case 0:
                 break;
         case 1:
-                Romove("Id");
+                Remove("Id");
                 break;
         case 2:
-                Romove("Title");
+                Remove("Title");
                 break;
         case 3:
-                Romove("Priority");
+                Remove("Priority");
 
                 break;
         case 4:
-                Romove("Status");
+                Remove("Status");
 
                 break;
         default:
@@ -272,7 +305,7 @@ void Delete() {
         }
 
 }
-void Romove(char Target[]) {
+void Remove(char Target[]) {
         int intTag,ItemFind=0;
         Found=false;
         char strTag[1];
@@ -352,11 +385,11 @@ void Display() {
 
                 printf("\n\n             Title  : %s ", Task[i].Title);
                 printf("\n\n             The Description : %s ", Task[i].Description);
-                if (strcmp(Task[i].Priority,"h")==0&&strcmp(Task[i].Priority,"h")==0)
+                if (strcmp(Task[i].Priority,"h")==0 || strcmp(Task[i].Priority,"h")==0)
                 {
                 printf("\n\n             Priority : %s ", "High");
                 }
-                if (strcmp(Task[i].Priority,"l")==0&&strcmp(Task[i].Priority,"L")==0)
+                if (strcmp(Task[i].Priority,"l")==0 || strcmp(Task[i].Priority,"L")==0)
                 {
                 printf("\n\n             Priority : %s ", "Low");
                 }
@@ -442,13 +475,14 @@ void Menu() {
 
                 // calling costum Title and its also check size if null or no
 
-                CostumTitle("Menu");
+                CustomTitle("Menu");
                 printf("\n\n\t\tEnter (1) To Add  Task  \n\n");
                 printf("\t\tEnter (2) To Display  All The Tasks  \n\n");
                 printf("\t\tEnter (3) To Update Tasks  \n\n");
                 printf("\t\tEnter (4) To Delete Tasks  \n\n");
                 printf("\t\tEnter (5) To Save   \n\n");
-                printf("\t\tEnter (6) To Exit   \n\n");
+                printf("\t\tEnter (6) Filter   \n\n");
+                printf("\t\tEnter (7) To Exit   \n\n");
 
                 printf("\n\n --> Go To :  ");
                 scanf("%d", & choice);
@@ -464,34 +498,37 @@ void Menu() {
 
                         break;
                 case 1:
-                        CostumTitle("Add");
+                        CustomTitle("Add");
                         Add();
 
                         break;
                 case 2:
 
-                        CostumTitle("Display");
+                        CustomTitle("Display");
                         empty("Display");
 
                         break;
                 case 3:
 
-                        CostumTitle("Update");
+                        CustomTitle("Update");
                         empty("Update");
 
                         break;
                 case 4:
-                        CostumTitle("Delete");
+                        CustomTitle("Delete");
                         empty("Delete");
 
                         break;
                 case 5:
-                        CostumTitle("Save");
+                        CustomTitle("Save");
                         empty("Save");
 
                         break;
 
                 case 6:
+                        Filter();
+                        break;
+                        case 7:
                         Exit();
                         break;
 
@@ -503,11 +540,46 @@ void Menu() {
         }
 }
 void Filter(){
+         int choice,Tag;
+    do{
+    printf("\n\n\t\tEnter (0) To back To The Main Menu ");
+    printf("\n\n\t\tEnter (1) To Filter By Status ");
+    printf("\n\n\t\tEnter (2) To Filter By Priority ");
+    printf("\n\n\t\tEnter (3) To Filter By The Due Date ");
 
+    printf("\n\n\tEnter Your Choice :  ");
+    scanf("%d",&choice);
+    printf("\n\n\n");
+    switch (choice)
+    {
+    case 0:
+    //  back up to menu
+       return;
+        break;
+         case 1:
+         // status
+        
+        break;
+         case 2:
+       
+        break;
+         case 3:
+       
+        break;
+    
+    default:
+        break;
+    }
+
+    
+
+    }while (choice>3||choice<0);
+    
+    
 }
 
 
-void CostumTitle(char Title[]) {
+void CustomTitle(char Title[]) {
 
 
         // Use diffrent style for Menu and normal Title
