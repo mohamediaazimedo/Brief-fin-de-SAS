@@ -48,7 +48,7 @@ void Save();
 void Exit();
 
 
-
+// Main Function
 void MisAjour(int Tag,int id){
 
     // Array index start from 0 so id is +1 while index is 0
@@ -121,9 +121,12 @@ void Add() {
         printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
         scanf("%s", & Task[SizeOfList].Priority);
          if(strcmp(Task[SizeOfList].Priority,"L")!=0
-         ||!strcmp(Task[SizeOfList].Priority,"l")||!strcmp(Task[SizeOfList].Priority,"H")||!strcmp(Task[SizeOfList].Priority,"h"))
+         &&strcmp(Task[SizeOfList].Priority,"l")!=0
+         &&strcmp(Task[SizeOfList].Priority,"H")!=0
+         &&strcmp(Task[SizeOfList].Priority,"h")!=0)
         {
          printf("\n\n      invalid Entery Enter H/h for high and L/l for low Priority  ");
+
 
             return;
         }
@@ -161,8 +164,8 @@ void Add() {
 
         // add id so to call later to use in  filter and delete and update The id ==[index] +1
         Task[SizeOfList].Id = List + 1;
-        // Add By Default That status is To Do
-        strcpy(Task[SizeOfList].Status,"To Do");
+        // Add By Default That status is ToDo u can change it in update to Done
+        strcpy(Task[SizeOfList].Status,"ToDo");
 
 
         SizeOfList++;
@@ -204,7 +207,9 @@ void Update() {
             break;
 
     }
-    else if(id<SizeOfList&&id>0) {MisAjour(Tag,id);}
+    else if(id<=SizeOfList &&  id>0&& Tag<=4 && Tag<0) {
+        MisAjour(Tag,id);
+        }
             break;
         case 2:
          CostumTitle("Update All");
@@ -271,6 +276,7 @@ void Romove(char Target[]) {
         int intTag,ItemFind=0;
         Found=false;
         char strTag[1];
+
         printf("\n Enter The %s Of The Table You Want To Delete :", Target);
         if (!strcmp(Target, "Id")) {
 
@@ -293,7 +299,7 @@ void Romove(char Target[]) {
                         }
 
                 } else if (!strcmp(Target, "Status")) {
-
+                        //  its Accept two value ToDo or Done
                         if (!strcmp(Task[i].Status, strTag)) {
                                 Found = true;
                                 Find[ItemFind++] = i;
@@ -301,9 +307,7 @@ void Romove(char Target[]) {
                         }
 
                 } else if (!strcmp(Target, "Priority")) {
-                            printf("p one \n");
-
-
+                   //  its Accept 4 value H/h for high  and L/l for low priority
                         if (!strcmp(Task[i].Priority, strTag)) {
                                         printf("p2 \n");
 
@@ -313,7 +317,7 @@ void Romove(char Target[]) {
                         }
 
                 } else if (!strcmp(Target, "Title")) {
-
+                             // it accept spaces 
                         if (strcmp(Task[i].Title, strTag) == 0) {
                                 Found = true;
                                 Find[ItemFind++] = i;
@@ -335,7 +339,7 @@ void Romove(char Target[]) {
         printf("\n\n\t      Deleted With Success \n");
 
         } else {
-                printf("\n\n\t   The Entered Data dont Match any Task \n");
+                printf("\n\n\t   ! The Entered Data dont Match any Task \n");
 
         }
 
@@ -348,7 +352,15 @@ void Display() {
 
                 printf("\n\n             Title  : %s ", Task[i].Title);
                 printf("\n\n             The Description : %s ", Task[i].Description);
-                printf("\n\n             Priority : %s ", Task[i].Priority);
+                if (strcmp(Task[i].Priority,"h")==0&&strcmp(Task[i].Priority,"h")==0)
+                {
+                printf("\n\n             Priority : %s ", "High");
+                }
+                if (strcmp(Task[i].Priority,"l")==0&&strcmp(Task[i].Priority,"L")==0)
+                {
+                printf("\n\n             Priority : %s ", "Low");
+                }
+                
                 printf("\n\n             Status : %s ", Task[i].Status);
                 printf("\n\n             The the Due Date mm/dd/yyyy : %d/%d/%d \n\n", Task[i].Date.Month, Task[i].Date.Day, Task[i].Date.Year);
 
@@ -517,3 +529,4 @@ int main() {
 
         return 0;
 }
+
