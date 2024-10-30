@@ -31,8 +31,24 @@ Tasks;
 int SizeOfList = 0, i,j, List = 0, Find[100];
 char Leave, Selected;
 bool Found, Saved;
-void Update();
+// initi Tasks and give it size max
 Tasks Task[100];
+
+// declare all the functions bellow
+void Update();
+void MisAjour(int Tag,int id);
+void Delete();
+void Display();
+void Add();
+void Menu();
+void CostumTitle(char Title[]);
+void Romove(char Target[]);
+void empty(char Title[]);
+void Save();
+void Exit();
+
+
+
 void MisAjour(int Tag,int id){
 
     // Array index start from 0 so id is +1 while index is 0
@@ -96,7 +112,6 @@ void empty(char Title[]) {
 void Add() {
 
         printf("\n               ************** Create Task %d *************               \n", SizeOfList + 1);
-
         printf("\n  >> Enter The Title Of The Task : ");
         scanf(" %[^\n]s", & Task[SizeOfList].Title);
 
@@ -105,17 +120,43 @@ void Add() {
 
         printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
         scanf("%s", & Task[SizeOfList].Priority);
+         if(strcmp(Task[SizeOfList].Priority,"L")!=0
+         ||!strcmp(Task[SizeOfList].Priority,"l")||!strcmp(Task[SizeOfList].Priority,"H")||!strcmp(Task[SizeOfList].Priority,"h"))
+        {
+         printf("\n\n      invalid Entery Enter H/h for high and L/l for low Priority  ");
+
+            return;
+        }
 
         printf("\n   Enter The the Due Date  \n");
 
         printf("\n\n      >>  Month From (1)To(12) : ");
         scanf("%d", & Task[SizeOfList].Date.Month);
+        if(Task[SizeOfList].Date.Month>12||Task[SizeOfList].Date.Month<=0)
+        {
+         printf("\n\n       invalid Entery You Have to Enter The Month from 1 To 12  ");
+
+            return;
+        }
 
         printf("\n\n      >> The Day From (1)To(31) : ");
         scanf("%d", & Task[SizeOfList].Date.Day);
 
-        printf("\n\n      >> The Year From (2024)To(2025) : ");
+         if(Task[SizeOfList].Date.Day>31||Task[SizeOfList].Date.Day<=0)
+        {
+         printf("\n\n       invalid Day  You Have to Enter A Day from 1 To 31  ");
+
+            return;
+        }
+
+        printf("\n\n      >> The Year From (2024)To(2030) : ");
         scanf("%d", & Task[SizeOfList].Date.Year);
+         if(Task[SizeOfList].Date.Year<2024||Task[SizeOfList].Date.Year>2030)
+        {
+         printf("\n\n       invalid Year The Year Should Be From (2024)To (2030) ");
+
+            return;
+        }
         printf("\n\n\n");
 
         // add id so to call later to use in  filter and delete and update The id ==[index] +1
@@ -356,14 +397,14 @@ void Save() {
                          Task[i].Status,
                          Task[i].Date.Month,Task[i].Date.Day,Task[i].Date.Year);
         }
-        printf("\n\n\t\t\t *  Saved With Success *   \n ");
+        printf("\n\n\t\t  *  Saved With Success *   \n ");
 	}
 
 	fclose(pfile);
 
 
 }
-int Exit() {
+void Exit() {
 
         if (Saved) {
                 printf("\n\n Thank You For Using \n");
@@ -449,7 +490,13 @@ void Menu() {
 
         }
 }
+void Filter(){
+
+}
+
+
 void CostumTitle(char Title[]) {
+
 
         // Use diffrent style for Menu and normal Title
         if (strcmp(Title, "Menu") == 0) {

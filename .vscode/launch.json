@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "gcc build and run",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/a.exe", // path to executable
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build",
+      "miDebuggerPath": "path/to/gdb.exe",
+      "setupCommands": [
+          { "text": "set new-console on" }
+      ]
+    }
+  ]
+}
