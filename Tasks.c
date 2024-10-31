@@ -6,6 +6,8 @@
 
 #include <stdbool.h>
 
+#include <time.h>
+
 struct Date {
 
   int Year;
@@ -128,6 +130,13 @@ void CheckSize(char Title[]) {
 }
 void Add() {
 
+int day,year,month;
+time_t t=time(NULL);
+ struct  tm *date= localtime(&t);
+day=date->tm_mday;
+year=date->tm_year+1900;
+month=date->tm_mon+1;
+
   printf("\n               ************** Create Task %d *************               \n", SizeOfList + 1);
   printf("\n  >> Enter The Title Of The Task : ");
   scanf(" %[^\n]s", & Task[SizeOfList].Title);
@@ -143,31 +152,33 @@ void Add() {
     return;
   }
 
-  printf("\n   Enter The  Due Date  \n");
-
-  printf("\n\n      >>  Month From (1)To(12) : ");
-  scanf("%d", & Task[SizeOfList].Date.Month);
-  if (Task[SizeOfList].Date.Month > 12 || Task[SizeOfList].Date.Month <= 0) {
-    printf("\n\n       invalid Entery You Have to Enter The Month from 1 To 12  ");
-    return;
-  }
-
-  printf("\n\n      >> The Day From (1)To(31) : ");
-  scanf("%d", & Task[SizeOfList].Date.Day);
-
-  if (Task[SizeOfList].Date.Day > 31 || Task[SizeOfList].Date.Day <= 0) {
-    printf("\n\n       invalid Day  You Have to Enter A Day from 1 To 31  ");
-
-    return;
-  }
-
   printf("\n\n      >> The Year From (2024)To(2030) : ");
   scanf("%d", & Task[SizeOfList].Date.Year);
-  if (Task[SizeOfList].Date.Year < 2024 || Task[SizeOfList].Date.Year > 2030) {
+  if (Task[SizeOfList].Date.Year < 2024 || Task[SizeOfList].Date.Year > 2030 || Task[SizeOfList].Date.Year<year) {
     printf("\n\n       invalid Year The Year Should Be From (2024)To (2030) ");
 
     return;
   }
+
+  printf("\n\n      >>  Month From (1)To(12) : ");
+  scanf("%d", & Task[SizeOfList].Date.Month);
+  if (Task[SizeOfList].Date.Month > 12 || Task[SizeOfList].Date.Month <= 0 || Task[SizeOfList].Date.Month <month) {
+    printf("\n\n          * invalid month * ");
+    return;
+  }
+
+  
+  
+
+  printf("\n\n      >> The Day From (1)To(31) : ");
+  scanf("%d", & Task[SizeOfList].Date.Day);
+
+  if (Task[SizeOfList].Date.Day > 31 || Task[SizeOfList].Date.Day <= 0 || Task[SizeOfList].Date.Day<day) {
+    printf("\n\n          * invalid Date * ");
+
+    return;
+  }
+
   printf("\n\n ");
 
   // add id so to call later to use in  filter and delete and update The id ==[index] +1
@@ -274,6 +285,8 @@ void Delete() {
   }
 
 }
+
+
 // it need to be fixed priority cases sensitive
 void Remove(char Target[]) {
   int intTag, ItemFind = 0;
@@ -358,10 +371,8 @@ void Remove(char Target[]) {
 
 }
 void Display() {
-
   for (i = 0; i < SizeOfList; i++) {
-
-    printf("\n\n               ************** Task %d *************               \n", Task[i].Id);
+   printf("\n\n               ************** Task %d *************               \n", Task[i].Id);
 
     printf("\n\n             Title  : %s ", Task[i].Title);
     printf("\n\n             The Description : %s ", Task[i].Description);
@@ -506,7 +517,7 @@ void Menu() {
       break;
 
     default:
-      printf("\n\n     * You should Enter a number From (1) To (6) *    \n\n");
+      printf("\n\n     * You should Enter a number From (1) To (7) *    \n\n");
 
     }
 
@@ -612,9 +623,13 @@ void CustomTitle(char Title[]) {
 }
 // main function
 int main() {
+  
   // set color to black so i can use color later
   // cal the Menu
-  Menu();
+
+
+ 
+ Menu();
 
   return 0;
 }
