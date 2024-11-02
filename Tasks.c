@@ -167,55 +167,65 @@ void MisAjour(int Tag,int id) {
                   // we Have 4 Case **Title Desc Prio Status**
                   switch (Tag) {
                   case 1:
+                  	do{  
                     printf("\n\n\tEnter new Title :");
                     scanf(" %[^\n]s", Task[id].Title);
-                    if (strlen(Task[SizeOfList].Title)==0 || strlen(Task[SizeOfList].Title)<6) {
-                      printf("\n\t\t The Title length should be greater than 6 characters");
-                      return ;
-
-
-                    }
-                    else printf("\n\n\t\tThe Title  UpDate with  Success            \n\n");
+                    if (strlen(Task[SizeOfList].Title)==0 
+					|| strlen(Task[SizeOfList].Title)<6) {
+                      printf("\n\t\t The Title length should be greater than 6 characters ");
+                      }
+           
+                    } while(strlen(Task[SizeOfList].Title)==0 
+					|| strlen(Task[SizeOfList].Title)<6);
+                     printf("\n\n\t\tThe Title  UpDate with  Success            \n\n");
 
                     break;
                   case 2:
-                    printf("\n\\tnEnter new Description :");
+                  	do{
+					 
+                    printf("\n\tEnter new Description :");
                     scanf(" %[^\n]s", Task[id].Description);
-                    if (strlen(Task[SizeOfList].Description) == 0 || strlen(Task[SizeOfList].Title) < 10)
+                    if (strlen(Task[SizeOfList].Description) == 0 
+						|| strlen(Task[SizeOfList].Title) < 10)
                     {
                       printf("\n\t\t The Description length should be greater than 10 characters");
-                      return;
-
+                     
                     }
-                    else
+                     }while (strlen(Task[SizeOfList].Description) == 0 
+					 || strlen(Task[SizeOfList].Title)<10);
+                    
                       printf("\n\n\t\t The Description  UpDate with  Success            \n\n");
 
                     break;
                   case 3:
+                  	do{
+					  
                     printf("\n\n\tEnter (H)High (L)Low To new Priority  :");
                     scanf(" %[^\n]s", Task[id].Priority);
                     strlwr(Task[id].Priority);
-                    if (strcmp(Task[SizeOfList].Priority, "l") != 0 && strcmp(Task[SizeOfList].Priority, "h") != 0)
+                    if (strcmp(Task[SizeOfList].Priority, "l") 
+					!= 0 && strcmp(Task[SizeOfList].Priority, "h") != 0)
                     {
                       printf("\n\n\t\t * Invalid Entery (H)High (L)Low *\n\n");
-
-                      return;
-                    }
-                    else
+					  }                    
+                }while(strcmp(Task[SizeOfList].Priority, "l") != 0 && strcmp(Task[SizeOfList].Priority, "h") != 0);
                       printf("\n\n\t\t Priority  UpDate with  Success            \n\n");
 
                     break;
 
                   case 4:
+                  	do{
+					  
                     printf("Enter new Status (Done) or (ToDo) :");
                     scanf(" %[^\n]s", Task[id].Status);
                     if (strcmp(Task[SizeOfList].Status, "Done") != 0 &&
                             strcmp(Task[SizeOfList].Priority, "ToDo") != 0)
                     {
                       printf("\n\n\t * Invalid Entery! Enter (Done) Or (ToDo) *\n\n");
-                      return;
+                     
                     }
-                    else
+                }while(strcmp(Task[SizeOfList].Status, "Done") != 0 &&
+                            strcmp(Task[SizeOfList].Priority, "ToDo") != 0);
                       printf("\n\n\t        Status  UpDate with  Success            \n\n");
 
                     break;
@@ -296,11 +306,7 @@ void Update() {
 
 			printf("\n  >> Enter The Description Of The Task : ");
 			scanf(" %[^\n]s", & Task[id].Description);
-
-			printf("\n  >> Enter (H) For  High Priority Or (L) For  Low  Priority : ");
-			scanf(" %[^\n]s", & Task[id].Priority);
-			printf("\n  >> Enter Status (ToDo) or (Done) : ");
-			scanf(" %[^\n]s", & Task[id].Status);
+            Valid();
 			printf("\n\n\t          UpDate Success            \n");
 
 			break;
